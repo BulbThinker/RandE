@@ -9,6 +9,7 @@
 
 
 TrueRand::TrueRand(int analog_pin) {
+    pinMode(analog_pin, INPUT);
     this->analog_pin = analog_pin;
     this->last_v = analogRead(analog_pin);
 }
