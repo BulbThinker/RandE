@@ -7,16 +7,21 @@
 
 #include "randE.h"
 
+const int rand_core[10] PROGMEM = {
+    0xf871887a,0x468f2917,0x9259fe14,0xd45c8b85,0x58345674,
+    0x2dc48009,0x75b328a5,0x45c30745,0x10bd6c99,0xfb914f8c,
+};
 
 TrueRand::TrueRand(int analog_pin) {
     pinMode(analog_pin, INPUT);
     this->analog_pin = analog_pin;
-    this->last_v = analogRead(analog_pin);
+    this->last_v = rand_core[analogRead(analog_pin)%10];
 }
 
 uint32_t TrueRand::getRandomDWORD() {
-    uint32_t x = (this->last_v & 0xFFFFF00F)
-               | (analogRead(this->analog_pin)&0xFF << 4);
+    uint32_t x = ((this->last_v ^ rand_core[x % 10]) & 0xFFFFF000)
+               | ((millis()&0xFF) << 4)
+               | (analogRead(this->analog_pin)&0x0F);
     x ^= x << 13;
     x ^= x >> 17;
     x ^= x << 5;
