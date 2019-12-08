@@ -21,7 +21,7 @@ TrueRand::TrueRand(int analog_pin) {
 uint32_t TrueRand::getRandomDWORD() {
     uint32_t x = ((this->last_v ^ rand_core[x % 10]) & 0xFFFFF000)
                | ((millis()&0xFF) << 4)
-               | (analogRead(this->analog_pin)&0x0F);
+               | (analogRead(this->analog_pin)&0xF);
     x ^= x << 13;
     x ^= x >> 17;
     x ^= x << 5;
@@ -33,7 +33,7 @@ int TrueRand::next_int() {
 }
 
 int TrueRand::next_int(int min_v, int max_v) {
-    return ((max_v - min_v)*this->next_double() + min_v);
+    return ((int)((max_v - min_v)*this->next_double() + min_v));
 }
 
 float TrueRand::next_float() {
