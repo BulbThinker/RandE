@@ -1,6 +1,7 @@
 IRand	KEYWORD1
 TrueRand	KEYWORD1
 XorShift	KEYWORD1
+LCG	KEYWORD1
 next_int	KEYWORD2
 next_float	KEYWORD2
 next_double	KEYWORD2
